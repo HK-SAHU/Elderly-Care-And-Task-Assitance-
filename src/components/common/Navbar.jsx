@@ -64,11 +64,36 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
                   Grocery
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/emergency" className="nav-link" onClick={() => setIsOpen(false)}>
+                  Emergency
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/volunteers" className="nav-link" onClick={() => setIsOpen(false)}>
+                  Volunteers
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/chat" className="nav-link" onClick={() => setIsOpen(false)}>
+                  Chat
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/health" className="nav-link" onClick={() => setIsOpen(false)}>
+                  Health Log
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/forum" className="nav-link" onClick={() => setIsOpen(false)}>
+                  Forum
+                </Link>
+              </li>
             </>
           )}
           
           {isAuthenticated ? (
-            <>   
+            <>
               <li className="nav-item user-info">
                 <span className="user-greeting">
                   <FaUser className="user-icon" />

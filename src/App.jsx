@@ -8,6 +8,11 @@ import Dashboard from './components/pages/Dashboard';
 import TaskScheduler from './components/features/TaskScheduler';
 import MedicineTracker from './components/features/MedicineTracker';
 import GroceryOrdering from './components/features/GroceryOrdering';
+import EmergencySOS from './components/features/EmergencySOS';
+import VolunteerMatching from './components/features/VolunteerMatching';
+import Chat from './components/features/Chat';
+import HealthLog from './components/features/HealthLog';
+import Forum from './components/features/Forum';
 import './styles/global.css';
 import './App.css';
 
@@ -57,6 +62,46 @@ function App() {
               element={
                 <ProtectedRoute>
                   <GroceryOrdering />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/emergency" 
+              element={
+                <ProtectedRoute>
+                  <EmergencySOS />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/volunteers" 
+              element={
+                <ProtectedRoute>
+                  <VolunteerMatching />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/chat" 
+              element={
+                <ProtectedRoute>
+                  <Chat />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/health" 
+              element={
+                <ProtectedRoute>
+                  <HealthLog />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/forum" 
+              element={
+                <ProtectedRoute>
+                  <Forum />
                 </ProtectedRoute>
               } 
             />

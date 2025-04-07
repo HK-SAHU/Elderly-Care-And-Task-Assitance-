@@ -1,0 +1,389 @@
+.volunteer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.volunteer-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--light-text);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.tab-button:hover {
+  color: var(--primary-color);
+}
+
+.tab-button.active {
+  color: var(--primary-color);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+/* Find Volunteers Tab */
+.filter-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter-bar input,
+.filter-bar select {
+  flex: 1;
+  min-width: 200px;
+}
+
+.volunteers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.volunteer-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  transition: var(--transition);
+}
+
+.volunteer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.volunteer-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.volunteer-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.volunteer-info h3 {
+  margin: 0 0 5px;
+  color: var(--text-color);
+}
+
+.volunteer-info p {
+  margin: 0 0 5px;
+  color: var(--light-text);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.volunteer-rating {
+  color: #f8b400;
+  font-weight: 600;
+}
+
+.volunteer-bio {
+  margin-bottom: 15px;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.volunteer-skills h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.skill-tag {
+  background-color: rgba(74, 144, 226, 0.1);
+  color: var(--primary-color);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.contact-btn {
+  width: 100%;
+}
+
+/* Request Assistance Tab */
+.request-form-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.request-form {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.submit-request-btn {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Tasks Tab */
+.tasks-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.tasks-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.task-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+}
+
+.task-card.accepted {
+  border-left: 4px solid #4caf50;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.task-header h3 {
+  margin: 0;
+  color: var(--text-color);
+}
+
+.task-status {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.task-status.accepted {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.task-details {
+  margin-bottom: 20px;
+}
+
+.task-details p {
+  margin: 8px 0;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-description {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border-color);
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.accept-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.details-btn {
+  flex: 1;
+}
+
+.no-tasks {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  color: var(--light-text);
+}
+
+/* Become a Volunteer Tab */
+.become-volunteer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.volunteer-info-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.volunteer-info-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.volunteer-info-card p {
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.benefits-list, .requirements-list {
+  margin-bottom: 25px;
+  padding-left: 20px;
+}
+
+.benefits-list li, .requirements-list li {
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.volunteer-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.volunteer-form h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.register-btn {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.volunteer-testimonials {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.volunteer-testimonials h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.testimonial {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.testimonial:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.testimonial p {
+  color: var(--text-color);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.testimonial-author {
+  text-align: right;
+  color: var(--light-text);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+  }
+  
+  .become-volunteer-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .task-actions {
+    flex-direction: column;
+  }
+}
