@@ -1,0 +1,236 @@
+.grocery-ordering {
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grocery-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.add-order-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.order-form-container {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.order-form h3 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.form-text {
+  display: block;
+  margin-top: 5px;
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+.no-orders {
+  text-align: center;
+  padding: 50px 0;
+  color: var(--light-text);
+}
+
+.section-title {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  font-size: 1.3rem;
+}
+
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.order-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  transition: var(--transition);
+}
+
+.order-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.order-date {
+  font-size: 0.9rem;
+  color: var(--light-text);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-pending {
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+.status-progress {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.urgency-high {
+  color: var(--error-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.order-items {
+  margin-bottom: 15px;
+}
+
+.order-items h4, .order-notes h4, .volunteer-info h4 {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.order-items pre {
+  white-space: pre-wrap;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.order-notes {
+  margin-bottom: 15px;
+}
+
+.order-notes p {
+  font-size: 0.9rem;
+  color: var(--light-text);
+}
+
+.volunteer-info {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: rgba(74, 144, 226, 0.1);
+  border-radius: 5px;
+}
+
+.volunteer-info p {
+  font-size: 0.9rem;
+}
+
+.order-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-volunteer {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.btn-volunteer:hover {
+  background-color: #3a7bc8;
+}
+
+.btn-complete {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.btn-complete:hover {
+  background-color: #4cae4c;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: var(--warning-color);
+  border: 1px solid var(--warning-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.btn-cancel:hover {
+  background-color: rgba(240, 173, 78, 0.1);
+}
+
+.btn-delete {
+  background-color: transparent;
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.btn-delete:hover {
+  background-color: rgba(217, 83, 79, 0.1);
+}
+
+@media (max-width: 768px) {
+  .orders-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .order-actions {
+    flex-direction: column;
+  }
+  
+  .order-actions button {
+    width: 100%;
+  }
+}

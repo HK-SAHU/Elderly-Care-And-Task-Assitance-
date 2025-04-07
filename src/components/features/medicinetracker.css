@@ -1,0 +1,214 @@
+.medicine-tracker {
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.medicine-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.add-medicine-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.medicine-form-container {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.medicine-form h3 {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.time-input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.time-input-container input {
+  flex: 1;
+}
+
+.time-input-container button {
+  padding: 0 15px;
+}
+
+.time-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.time-tag {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.time-tag button {
+  background: none;
+  border: none;
+  color: white;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 5px;
+}
+
+.medicine-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.medicine-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  transition: var(--transition);
+}
+
+.medicine-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.medicine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.medicine-name {
+  color: var(--primary-color);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.medicine-dosage {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.medicine-frequency {
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+.medicine-dates {
+  margin: 15px 0;
+  font-size: 0.9rem;
+  color: var(--light-text);
+}
+
+.medicine-notes {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.medicine-schedule {
+  margin-top: 20px;
+}
+
+.schedule-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.schedule-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.schedule-time {
+  position: relative;
+  background-color: #f5f5f5;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.schedule-time.taken {
+  background-color: rgba(92, 184, 92, 0.2);
+  border-color: var(--accent-color);
+}
+
+.take-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: var(--transition);
+}
+
+.take-button:hover {
+  background-color: #3a7bc8;
+}
+
+.take-button:disabled {
+  background-color: #a0c0e8;
+  cursor: not-allowed;
+}
+
+.medicine-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.delete-medicine {
+  background-color: transparent;
+  color: var(--error-color);
+  border: 1px solid var(--error-color);
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.delete-medicine:hover {
+  background-color: rgba(217, 83, 79, 0.1);
+}
+
+.no-medicines {
+  text-align: center;
+  padding: 50px 0;
+  color: var(--light-text);
+}
+
+@media (max-width: 768px) {
+  .medicine-list {
+    grid-template-columns: 1fr;
+  }
+}
+  
