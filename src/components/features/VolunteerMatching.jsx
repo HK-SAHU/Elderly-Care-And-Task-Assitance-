@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FaMapMarkerAlt, FaCalendarAlt, FaCheck, FaTimes } from 'react-icons/fa';
+import { volunteerService, taskService } from '../../services/api';
 import './VolunteerMatching.css';
 
 const VolunteerMatching = () => {
@@ -11,80 +12,131 @@ const VolunteerMatching = () => {
   const [volunteers, setVolunteers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [isVolunteer, setIsVolunteer] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulate fetching volunteers from API
-    const mockVolunteers = [
-      { id: 1, name: 'Sarah Johnson', age: 28, location: 'Downtown', rating: 4.8, tasks: 56, bio: 'Nursing student who loves helping seniors in my free time.', skills: ['Transportation', 'Grocery Shopping', 'Companionship'] },
-      { id: 2, name: 'Michael Chen', age: 35, location: 'Westside', rating: 4.9, tasks: 124, bio: 'Retired nurse with 10+ years of experience caring for elderly patients.', skills: ['Medical Assistance', 'Transportation', 'Meal Preparation'] },
-      { id: 3, name: 'David Wilson', age: 42, location: 'Northside', rating: 4.7, tasks: 87, bio: 'I have been volunteering with seniors for over 5 years and find it very rewarding.', skills: ['Home Repairs', 'Yard Work', 'Transportation'] },
-      { id: 4, name: 'Emily Rodriguez', age: 31, location: 'Eastside', rating: 4.6, tasks: 63, bio: 'Social worker specializing in elder care. Available weekends.', skills: ['Companionship', 'Grocery Shopping', 'Administrative Help'] }
-    ];
-    
-    setVolunteers(mockVolunteers);
-    
-    // Simulate fetching tasks from API
-    const mockTasks = [
-      { id: 1, type: 'Transportation', location: 'Downtown', date: '2023-11-15', time: '10:00 AM', requester: 'John Smith', description: 'Need a ride to doctor appointment', status: 'open' },
-      { id: 2, type: 'Grocery Shopping', location: 'Westside', date: '2023-11-16', time: '2:00 PM', requester: 'Mary Johnson', description: 'Weekly grocery shopping assistance needed', status: 'open' },
-      { id: 3, type: 'Home Repair', location: 'Northside', date: '2023-11-18', time: '11:00 AM', requester: 'Robert Davis', description: 'Need help fixing a leaky faucet', status: 'open' },
-      { id: 4, type: 'Companionship', location: 'Eastside', date: '2023-11-20', time: '3:00 PM', requester: 'Elizabeth Brown', description: 'Looking for someone to play chess with', status: 'open' }
-    ];
-    
-    setTasks(mockTasks);
-    
-    // Check if user is registered as a volunteer
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.isVolunteer) {
-      setIsVolunteer(true);
-    }
-  }, []);
-
-  const handleSubmitRequest = (e) => {
-    e.preventDefault();
-    
-    // In a real app, this would send the request to a backend API
-    const newTask = {
-      id: tasks.length + 1,
-      type: taskType,
-      location: location,
-      date: date,
-      time: '12:00 PM', // Default time
-      requester: JSON.parse(localStorage.getItem('user')).name,
-      description: description,
-      status: 'open'
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // Fetch volunteers
+        const volunteersResponse = await volunteerService.getVolunteers();
+        setVolunteers(volunteersResponse.data);
+        
+        // Fetch tasks
+        const tasksResponse = await taskService.getOpenTasks();
+        setTasks(tasksResponse.data);
+        
+        // Check if user is registered as a volunteer
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.isVolunteer) {
+          setIsVolunteer(true);
+        }
+      } catch (err) {
+        setError('Failed to fetch data. Please try again later.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
     
-    setTasks([...tasks, newTask]);
+    fetchData();
+  }, []);
+
+  const handleSubmitRequest = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     
-    // Reset form
-    setLocation('');
-    setTaskType('');
-    setDate('');
-    setDescription('');
-    
-    alert('Your volunteer request has been submitted successfully!');
+    try {
+      const taskData = {
+        type: taskType,
+        location: location,
+        date: date,
+        time: '12:00 PM', // Default time
+        description: description
+      };
+      
+      const response = await taskService.createTask(taskData);
+      
+      // Add the new task to the tasks list
+      setTasks([...tasks, response.data]);
+      
+      // Reset form
+      setLocation('');
+      setTaskType('');
+      setDate('');
+      setDescription('');
+      
+      alert('Your volunteer request has been submitted successfully!');
+    } catch (err) {
+      setError('Failed to submit request. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAcceptTask = (taskId) => {
-    // In a real app, this would update the task status in the backend
-    const updatedTasks = tasks.map(task => 
-      task.id === taskId ? { ...task, status: 'accepted' } : task
-    );
+  const handleAcceptTask = async (taskId) => {
+    setLoading(true);
     
-    setTasks(updatedTasks);
-    alert('You have accepted this task. The requester will be notified.');
+    try {
+      await taskService.acceptTask(taskId);
+      
+      // Update the task status in the UI
+      const updatedTasks = tasks.map(task => 
+        task._id === taskId ? { ...task, status: 'accepted' } : task
+      );
+      
+      setTasks(updatedTasks);
+      alert('You have accepted this task. The requester will be notified.');
+    } catch (err) {
+      setError('Failed to accept task. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleRegisterAsVolunteer = () => {
-    // In a real app, this would update the user profile in the backend
-    const user = JSON.parse(localStorage.getItem('user'));
-    user.isVolunteer = true;
-    localStorage.setItem('user', JSON.stringify(user));
+  const handleRegisterAsVolunteer = async () => {
+    setLoading(true);
     
-    setIsVolunteer(true);
-    alert('You are now registered as a volunteer!');
+    try {
+      const volunteerData = {
+        bio: 'I am interested in helping seniors in my community.',
+        skills: ['Transportation', 'Companionship'],
+        availability: {
+          weekdays: true,
+          weekends: true,
+          mornings: false,
+          afternoons: true,
+          evenings: true
+        }
+      };
+      
+      await volunteerService.registerAsVolunteer(volunteerData);
+      
+      // Update user in localStorage
+      const user = JSON.parse(localStorage.getItem('user'));
+      user.isVolunteer = true;
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      setIsVolunteer(true);
+      alert('You are now registered as a volunteer!');
+    } catch (err) {
+      setError('Failed to register as volunteer. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
 
   return (
     <div className="volunteer-container">
