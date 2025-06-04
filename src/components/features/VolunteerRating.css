@@ -1,0 +1,18 @@
+.volunteer-rating-card {
+  margin-bottom: 20px;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.rating-value {
+  margin-left: 15px;
+  font-weight: 500;
+}
+
+.submit-rating-btn {
+  width: 20rem;
+}

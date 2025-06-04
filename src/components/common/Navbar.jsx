@@ -1,126 +1,90 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUser, FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
 
 const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [userName, setUserName] = useState('User');
   
-  // Get user's first name from localStorage
-  const getUserFirstName = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.name) {
-      // Extract first name from full name
-      return user.name.split(' ')[0];
+  useEffect(() => {
+    // Get the user's name from localStorage or your authentication system
+    const storedName = localStorage.getItem('userName');
+    if (storedName) {
+      setUserName(storedName);
     }
-    return 'User'; // Default fallback
-  };
-  
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  }, [isAuthenticated]);
   
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('userName'); // Also remove userName on logout
     setIsAuthenticated(false);
-    navigate('/');
-    setIsOpen(false);
+    navigate('/login');
   };
   
   return (
     <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
-          <span className="logo-text">ElderCare</span>
+      <div className="container navbar-container">
+        <Link className="navbar-brand" to="/">
+          ElderCare
         </Link>
         
-        <div className="menu-icon" onClick={toggleMenu}>
-          {isOpen ? <FaTimes /> : <FaBars />}
-        </div>
-        
-        <ul className={isOpen ? 'nav-menu active' : 'nav-menu'}>
-          <li className="nav-item">
-            <Link to="/" className="nav-link" onClick={() => setIsOpen(false)}>
-              Home
-            </Link>
-          </li>
-          
-          {isAuthenticated && (
-            <>
+        {isAuthenticated ? (
+          <>
+            <ul className="navbar-nav">
               <li className="nav-item">
-                <Link to="/tasks" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Tasks
-                </Link>
+                <Link className="nav-link" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link to="/medicine" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Medicine
-                </Link>
+                <Link className="nav-link" to="/tasks">Tasks</Link>
               </li>
               <li className="nav-item">
-                <Link to="/grocery" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Grocery
-                </Link>
+                <Link className="nav-link" to="/medicine">Medicine</Link>
               </li>
               <li className="nav-item">
-                <Link to="/emergency" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Emergency
-                </Link>
+                <Link className="nav-link" to="/grocery">Grocery</Link>
               </li>
               <li className="nav-item">
-                <Link to="/volunteers" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Volunteers
-                </Link>
+                <Link className="nav-link" to="/emergency">Emergency</Link>
               </li>
               <li className="nav-item">
-                <Link to="/chat" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Chat
-                </Link>
+                <Link className="nav-link" to="/volunteers">Volunteers</Link>
               </li>
               <li className="nav-item">
-                <Link to="/health" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Health Log
-                </Link>
+                <Link className="nav-link" to="/chat">Chat</Link>
               </li>
               <li className="nav-item">
-                <Link to="/forum" className="nav-link" onClick={() => setIsOpen(false)}>
-                  Forum
-                </Link>
-              </li>
-            </>
-          )}
-          
-          {isAuthenticated ? (
-            <>
-              <li className="nav-item user-info">
-                <span className="user-greeting">
-                  <FaUser className="user-icon" />
-                  Hello, {getUserFirstName()}
-                </span>
+                <Link className="nav-link" to="/voice-tasks">Voice Tasks</Link>
               </li>
               <li className="nav-item">
-                <button className="logout-btn" onClick={handleLogout}>
-                  Logout
-                </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link login-btn" onClick={() => setIsOpen(false)}>
-                  Login
-                </Link>
+                <Link className="nav-link" to="/location-check-in">Location</Link>
               </li>
               <li className="nav-item">
-                <Link to="/signup" className="nav-link signup-btn" onClick={() => setIsOpen(false)}>
-                  Sign Up
-                </Link>
+                <Link className="nav-link" to="/volunteer-ratings">Ratings</Link>
               </li>
-            </>
-          )}
-        </ul>
+              <li className="nav-item">
+                <Link className="nav-link" to="/health">Health</Link>
+              </li>
+            </ul>
+            
+            <ul className="navbar-nav auth-nav">
+              <li className="nav-item">
+                <span className="nav-link">Hello, {userName}</span>
+              </li>
+              <li className="nav-item">
+                <button className="logout-btn" onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
+          </>
+        ) : (
+          <ul className="navbar-nav auth-nav">
+            <li className="nav-item">
+              <Link className="nav-link" to="/login">Login</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link btn-primary" to="/signup">Sign Up</Link>
+            </li>
+          </ul>
+        )}
       </div>
     </nav>
   );

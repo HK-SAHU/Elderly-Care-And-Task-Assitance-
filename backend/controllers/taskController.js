@@ -1,6 +1,6 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
-const Volunteer = require('../models/Volunteer');
+const Volunteer = require('../../models/Volunteer');
 
 // @route   POST /api/tasks
 // @desc    Create a new task
@@ -186,6 +186,40 @@ exports.cancelTask = async (req, res) => {
     res.json(task);
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
+
+const Task = require('../models/Task');
+
+// @route   POST /api/tasks/voice
+// @desc    Create a new task from voice input
+// @access  Private
+exports.createVoiceTask = async (req, res) => {
+  try {
+    const { title, description, dueDate, priority } = req.body;
+    
+    // Simple validation
+    if (!title) {
+      return res.status(400).json({ msg: 'Task title is required' });
+    }
+    
+    // Create new task
+    const newTask = new Task({
+      title,
+      description: description || '',
+      user: req.user.id,
+      dueDate: dueDate || Date.now() + 7 * 24 * 60 * 60 * 1000, // Default to 1 week from now
+      priority: priority || 'Medium',
+      status: 'Open'
+    });
+    
+    const task = await newTask.save();
+    
+    res.status(201).json(task);
+  } catch (err) {
+    console.error('Voice task creation error:', err.message);
     res.status(500).send('Server error');
   }
 };

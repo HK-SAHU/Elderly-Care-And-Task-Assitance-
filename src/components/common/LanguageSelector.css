@@ -1,0 +1,18 @@
+.language-selector {
+  margin-left: 10px;
+}
+
+.language-selector .dropdown-toggle {
+  padding: 0.375rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.language-selector .dropdown-menu {
+  min-width: 120px;
+}
+
+.language-selector .dropdown-item.active {
+  background-color: #007bff;
+  color: white;
+}

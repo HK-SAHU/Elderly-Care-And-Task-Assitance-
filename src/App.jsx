@@ -13,6 +13,10 @@ import VolunteerMatching from './components/features/VolunteerMatching';
 import Chat from './components/features/Chat';
 import HealthLog from './components/features/HealthLog';
 import Forum from './components/features/Forum';
+// Import new components
+import VoiceTaskInput from './components/features/VoiceTaskInput';
+import LocationCheckIn from './components/features/LocationCheckIn';
+import VolunteerRating from './components/features/VolunteerRating';
 import './styles/global.css';
 import './App.css';
 
@@ -102,6 +106,31 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Forum />
+                </ProtectedRoute>
+              } 
+            />
+            {/* New routes for additional features */}
+            <Route 
+              path="/voice-tasks" 
+              element={
+                <ProtectedRoute>
+                  <VoiceTaskInput />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/location-check-in" 
+              element={
+                <ProtectedRoute>
+                  <LocationCheckIn />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/volunteer-ratings" 
+              element={
+                <ProtectedRoute>
+                  <VolunteerRating />
                 </ProtectedRoute>
               } 
             />

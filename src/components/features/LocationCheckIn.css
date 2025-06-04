@@ -1,0 +1,36 @@
+.location-check-in {
+  margin-bottom: 30px;
+}
+
+.check-in-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-bottom: 15px;
+}
+
+.current-location {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.check-in-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.check-in-location {
+  font-weight: 500;
+}
+
+.check-in-time {
+  color: #6c757d;
+  font-size: 0.9rem;
+}

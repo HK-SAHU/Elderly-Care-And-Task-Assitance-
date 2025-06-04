@@ -1,120 +1,69 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Auth.css';
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        window.dispatchEvent(new CustomEvent('auth', { 
+          detail: { 
+            isAuthenticated: true, 
+            user: response.data.user 
+          }
+        }));
+        navigate('/');
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to login');
+    }
+  };
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [e.target.name]: e.target.value
     });
-    
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: ''
-      });
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    }
-    
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    }
-    
-    return newErrors;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const newErrors = validateForm();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-    
-    // Check credentials against localStorage
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find(u => u.email === formData.email && u.password === formData.password);
-    
-    if (user) {
-      // Store current user info
-      localStorage.setItem('user', JSON.stringify({
-        name: user.name,
-        email: user.email
-      }));
-      
-      localStorage.setItem('token', 'dummy-token');
-      setIsAuthenticated(true);
-      navigate('/');
-    } else {
-      setErrors({ login: 'Invalid email or password' });
-    }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h2>Welcome Back</h2>
-        <form onSubmit={handleSubmit}>
-          {errors.login && <div className="error-message login-error">{errors.login}</div>}
-          
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-            />
-            {errors.email && <div className="error-message">{errors.email}</div>}
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-            />
-            {errors.password && <div className="error-message">{errors.password}</div>}
-          </div>
-          
-          <div className="form-group remember-forgot">
-            
-            <Link to="/forgot-password" className="forgot-password">Forgot Password?</Link>
-          </div>
-          
-          <button type="submit" className="btn-primary auth-btn">Login</button>
-        </form>
-        
-        <div className="auth-footer">
-          Don't have an account? <Link to="/signup">Sign Up</Link>
+    <div className="auth-form-container">
+      <form onSubmit={handleSubmit}>
+        {error && <div className="error-message">{error}</div>}
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         </div>
-      </div>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <button type="submit" className="btn">Login</button>
+      </form>
     </div>
   );
 };

@@ -1,6 +1,27 @@
 const mongoose = require('mongoose');
 
-const volunteerSchema = new mongoose.Schema({
+const ReviewSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5
+  },
+  comment: {
+    type: String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const VolunteerSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -29,18 +50,12 @@ const volunteerSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  reviews: [{
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    rating: Number,
-    comment: String,
-    date: {
-      type: Date,
-      default: Date.now
-    }
-  }],
+  reviews: [ReviewSchema],
+  
+  averageRating: {
+    type: Number,
+    default: 0
+  },
   verified: {
     type: Boolean,
     default: false
@@ -51,6 +66,15 @@ const volunteerSchema = new mongoose.Schema({
   }
 });
 
-const Volunteer = mongoose.model('Volunteer', volunteerSchema);
+// Calculate average rating when a review is added or updated
+VolunteerSchema.methods.calculateAverageRating = function() {
+  if (this.reviews.length === 0) {
+    this.averageRating = 0;
+    return;
+  }
+  
+  const sum = this.reviews.reduce((total, review) => total + review.rating, 0);
+  this.averageRating = sum / this.reviews.length;
+};
 
-module.exports = Volunteer;
+module.exports = mongoose.model('Volunteer', VolunteerSchema);

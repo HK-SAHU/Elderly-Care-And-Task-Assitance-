@@ -63,139 +63,192 @@
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   padding: 30px;
+  margin-bottom: 30px;
+  text-align: center;
   transition: var(--transition);
+  position: relative;
   display: flex;
   flex-direction: column;
+  min-height: 450px;
+  padding-bottom: 70px; /* Space for the button */
 }
 
 .feature-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .feature-icon {
   font-size: 3rem;
+  color: var(--primary-color);
   margin-bottom: 20px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+/* Remove the :before pseudo-elements that are conflicting with Font Awesome */
+/* Delete or comment out these lines:
+.feature-icon:before {
+  content: "📋";
+}
+.feature-card:nth-child(1) .feature-icon:before...
+and all other .feature-card:nth-child selectors
+*/
 
 .feature-card h3 {
   color: var(--primary-color);
-  margin-bottom: 15px;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  margin: 15px 0;
 }
 
 .feature-card p {
-  color: var(--text-color);
-  font-size: 0.95rem;
-  margin-bottom: 15px;
-}
-
-.feature-details {
-  list-style-type: none;
-  padding-left: 0;
+  color: var(--light-text);
   margin-bottom: 20px;
 }
 
-.feature-details li {
+.feature-card ul {
+  list-style-type: none;
+  text-align: left;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow the list to grow and push the button down */
+}
+
+.feature-card ul li {
   position: relative;
-  padding-left: 20px;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+  padding-left: 25px;
+  margin-bottom: 10px;
   color: var(--light-text);
 }
 
-.feature-details li::before {
+.feature-card ul li::before {
   content: "✓";
   position: absolute;
   left: 0;
   color: var(--accent-color);
-  font-weight: bold;
 }
 
-.feature-link {
-  margin-top: auto;
-  display: inline-block;
-  padding: 8px 15px;
+.card-button-container {
+  margin-top: auto; /* Push to the bottom of the flex container */
+  padding-top: 20px;
+}
+
+.feature-card .btn {
   background-color: var(--primary-color);
   color: white;
-  text-decoration: none;
+  padding: 10px 20px;
   border-radius: var(--border-radius);
-  font-size: 0.9rem;
-  font-weight: 500;
+  display: inline-block;
+  text-decoration: none;
   transition: var(--transition);
-  text-align: center;
 }
 
-.feature-link:hover {
+.feature-card .btn:hover {
   background-color: #3a7bc8;
 }
 
-.testimonials-section {
-  padding: 50px 0;
-  background-color: #f9f9f9;
-  border-radius: var(--border-radius);
-  margin: 30px 0 50px;
-}
-
-.testimonials-grid {
+/* Features grid layout */
+.features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
-  padding: 0 20px;
-}
-
-.testimonial-card {
-  background-color: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  padding: 25px;
-  position: relative;
-}
-
-.testimonial-card::before {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  font-size: 4rem;
-  color: rgba(74, 144, 226, 0.1);
-  font-family: serif;
-}
-
-.testimonial-quote {
-  font-style: italic;
-  margin-bottom: 15px;
-  color: var(--text-color);
-  position: relative;
-  z-index: 1;
-}
-
-.testimonial-author {
-  font-weight: 600;
-  color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
-  .hero-section {
-    padding: 50px 20px;
-  }
-  
-  .hero-section h1 {
-    font-size: 2rem;
-  }
-  
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .hero-buttons a {
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 10px;
-  }
-  
-  .features-grid, .testimonials-grid {
+  .features-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Add these styles to your Dashboard.css file */
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  padding-bottom: 70px; /* Space for the button */
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.card-button-container {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+/* If you're not using Font Awesome, you can use these fallback icons */
+.feature-icon:before {
+  content: "📋"; /* Default icon */
+}
+
+.feature-card:nth-child(1) .feature-icon:before {
+  content: "📋"; /* Task icon */
+}
+
+.feature-card:nth-child(2) .feature-icon:before {
+  content: "💊"; /* Medicine icon */
+}
+
+.feature-card:nth-child(3) .feature-icon:before {
+  content: "🛒"; /* Grocery icon */
+}
+
+.feature-card:nth-child(4) .feature-icon:before {
+  content: "🆘"; /* Emergency icon */
+}
+
+.feature-card:nth-child(5) .feature-icon:before {
+  content: "🤝"; /* Volunteer icon */
+}
+
+.feature-card:nth-child(6) .feature-icon:before {
+  content: "💬"; /* Chat icon */
+}
+
+.feature-card:nth-child(7) .feature-icon:before {
+  content: "🎤"; /* Voice icon */
+}
+
+.feature-card:nth-child(8) .feature-icon:before {
+  content: "📍"; /* Location icon */
+}
+
+.feature-card:nth-child(9) .feature-icon:before {
+  content: "⭐"; /* Rating icon */
+}
+
+.feature-card:nth-child(10) .feature-icon:before {
+  content: "❤️"; /* Health icon */
+}
+
+.feature-card:nth-child(11) .feature-icon:before {
+  content: "👥"; /* Forum icon */
+}
+
+/* Add these styles for the welcome section text */
+.welcome-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.welcome-subtitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--light-text);
+  max-width: 800px;
+  margin: 0 auto 30px;
+  text-align: center;
+  line-height: 1.4;
 }

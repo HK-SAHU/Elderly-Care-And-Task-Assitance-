@@ -72,6 +72,15 @@ export const userService = {
   
   getProfile: async () => {
     return await api.get('/users/profile');
+  },
+  
+  // Added language preference methods
+  updateLanguagePreference: async (languageData) => {
+    return await api.put('/users/language-preference', languageData);
+  },
+  
+  getLanguagePreference: async () => {
+    return await api.get('/users/language-preference');
   }
 };
 
@@ -93,8 +102,21 @@ export const volunteerService = {
     return await api.put('/volunteers', volunteerData);
   },
   
+  // Added review methods
   addReview: async (volunteerId, reviewData) => {
-    return await api.post(`/volunteers/review/${volunteerId}`, reviewData);
+    return await api.post(`/volunteers/${volunteerId}/reviews`, reviewData);
+  },
+  
+  updateReview: async (volunteerId, reviewData) => {
+    return await api.put(`/volunteers/${volunteerId}/reviews`, reviewData);
+  },
+  
+  getUserRatingForVolunteer: async (volunteerId) => {
+    return await api.get(`/volunteers/${volunteerId}/user-review`);
+  },
+  
+  getVolunteerRatings: async (volunteerId) => {
+    return await api.get(`/volunteers/${volunteerId}/reviews`);
   }
 };
 
@@ -120,6 +142,11 @@ export const taskService = {
     return await api.post('/tasks', taskData);
   },
   
+  // Added voice task method
+  createVoiceTask: async (taskData) => {
+    return await api.post('/tasks/voice', taskData);
+  },
+  
   acceptTask: async (taskId) => {
     return await api.put(`/tasks/${taskId}/accept`);
   },
@@ -130,6 +157,29 @@ export const taskService = {
   
   cancelTask: async (taskId) => {
     return await api.put(`/tasks/${taskId}/cancel`);
+  }
+};
+
+// Location services
+export const locationService = {
+  checkIn: async (locationData) => {
+    return await api.post('/location/check-in', locationData);
+  },
+  
+  getCheckIns: async () => {
+    return await api.get('/location/check-ins');
+  },
+  
+  getCheckInById: async (id) => {
+    return await api.get(`/location/check-ins/${id}`);
+  },
+  
+  getRecentCheckIn: async () => {
+    return await api.get('/location/recent');
+  },
+  
+  deleteCheckIn: async (id) => {
+    return await api.delete(`/location/check-ins/${id}`);
   }
 };
 

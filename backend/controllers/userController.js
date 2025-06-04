@@ -96,3 +96,50 @@ exports.updateUser = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+// @route   PUT /api/users/language-preference
+// @desc    Update user language preference
+// @access  Private
+exports.updateLanguagePreference = async (req, res) => {
+  try {
+    const { language } = req.body;
+    
+    // Validate language input
+    if (!language || !['en', 'es'].includes(language)) {
+      return res.status(400).json({ msg: 'Invalid language selection' });
+    }
+    
+    // Find and update user
+    const user = await User.findById(req.user.id);
+    
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    
+    user.languagePreference = language;
+    await user.save();
+    
+    res.json({ language: user.languagePreference });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
+// @route   GET /api/users/language-preference
+// @desc    Get user language preference
+// @access  Private
+exports.getLanguagePreference = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    
+    res.json({ language: user.languagePreference });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+};

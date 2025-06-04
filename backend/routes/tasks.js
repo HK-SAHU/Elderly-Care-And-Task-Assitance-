@@ -1,46 +1,63 @@
 const express = require('express');
 const router = express.Router();
-const taskController = require('../controllers/taskController');
+const Task = require('../models/Task');
 const auth = require('../middleware/auth');
 
-// @route   POST /api/tasks
-// @desc    Create a new task
-// @access  Private
-router.post('/', auth, taskController.createTask);
+// Get all tasks for logged-in user
+router.get('/', auth, async (req, res) => {
+  try {
+    const tasks = await Task.find({ userId: req.user.userId });
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
-// @route   GET /api/tasks
-// @desc    Get all tasks
-// @access  Public
-router.get('/', taskController.getTasks);
+// Create new task
+router.post('/', auth, async (req, res) => {
+  try {
+    const task = new Task({
+      ...req.body,
+      userId: req.user.userId
+    });
+    const savedTask = await task.save();
+    res.status(201).json(savedTask);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
-// @route   GET /api/tasks/open
-// @desc    Get all open tasks
-// @access  Public
-router.get('/open', taskController.getOpenTasks);
+// Update task
+router.put('/:id', auth, async (req, res) => {
+  try {
+    const task = await Task.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.userId },
+      req.body,
+      { new: true }
+    );
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    res.json(task);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
-// @route   GET /api/tasks/user
-// @desc    Get tasks requested by current user
-// @access  Private
-router.get('/user', auth, taskController.getUserTasks);
-
-// @route   GET /api/tasks/volunteer
-// @desc    Get tasks accepted by current volunteer
-// @access  Private
-router.get('/volunteer', auth, taskController.getVolunteerTasks);
-
-// @route   PUT /api/tasks/:id/accept
-// @desc    Accept a task
-// @access  Private
-router.put('/:id/accept', auth, taskController.acceptTask);
-
-// @route   PUT /api/tasks/:id/complete
-// @desc    Complete a task
-// @access  Private
-router.put('/:id/complete', auth, taskController.completeTask);
-
-// @route   PUT /api/tasks/:id/cancel
-// @desc    Cancel a task
-// @access  Private
-router.put('/:id/cancel', auth, taskController.cancelTask);
+// Delete task
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const task = await Task.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user.userId
+    });
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    res.json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;
